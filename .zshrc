@@ -66,7 +66,7 @@ alias ....="z ../../.."
 alias .....="z ../../../.."
 alias ......="z ../../../../.."
 
-# Minikube
+# Minikub
 alias kubectl="minikube kubectl --"
 
 # Nvim
