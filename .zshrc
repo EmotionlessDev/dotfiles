@@ -1,0 +1,105 @@
+setopt prompt_subst
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit
+compinit
+
+
+# source <(fzf --zsh)
+source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# eval "$(starship init zsh)"
+# export STARSHIP_CONFIG=~/.config/starship/starship.toml
+export XDG_CONFIG_HOME="$HOME/.config"
+
+FZF_COMPLETION_TRIGGER='**'
+FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+
+plugins=(git wd docker)
+
+# GO
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+# PHP
+export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"
+
+# PostgreSQL
+export PATH="/usr/local/opt/libpq/bin:$PATH"
+
+alias vi="nvim"
+alias vim="nvim"
+export EDITOR="nvim"
+export GIT_EDITOR="nvim"
+export VISUAL="nvim"
+
+# Git
+alias gc="git commit -m"
+alias gca="git commit -a -m"
+alias gp="git push origin HEAD"
+alias gpu="git pull origin"
+alias gst="git status"
+alias glog="git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit"
+alias gdiff="git diff"
+alias gco="git checkout"
+alias gb='git branch'
+alias gba='git branch -a'
+alias gadd='git add'
+alias ga='git add -p'
+alias gcoall='git checkout -- .'
+alias gr='git remote'
+alias gre='git reset'
+
+# Docker
+alias dco="docker compose"
+alias dps="docker ps"
+alias dpa="docker ps -a"
+alias dl="docker ps -l -q"
+alias dx="docker exec -it"
+
+# Dirs
+alias ..="z .."
+alias ...="z ../.."
+alias ....="z ../../.."
+alias .....="z ../../../.."
+alias ......="z ../../../../.."
+
+# Minikube
+alias kubectl="minikube kubectl --"
+
+# Nvim
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+
+# Eza
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+alias ltree="eza --tree --level=2  --icons --git"
+
+fcd() { z "$(find . -type d -not -path '*/.*' | fzf)" && l; }
+cd_to_dir() {
+    local selected_dir
+    selected_dir=$(fd -t d . "$1" | fzf +m --height 50% --preview 'tree -C {}')
+    if [[ -n "$selected_dir" ]]; then
+        z "$selected_dir" || return 1
+    fi
+}
+alias cdd="cd_to_dir"
+
+alias zcfg="nvim ~/.zshrc"
+alias rr="sh ~/remap.sh"
+alias sb="z ~/sandbox"
+alias p="z ~/p"
+alias cat="bat"
+alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=cyan,bg=black,bold,underline"
