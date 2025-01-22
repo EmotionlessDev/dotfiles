@@ -1,3 +1,4 @@
+
 setopt prompt_subst
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 autoload bashcompinit && bashcompinit
@@ -5,12 +6,12 @@ autoload -Uz compinit
 compinit
 
 
-# source <(fzf --zsh)
+source <(fzf --zsh)
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# eval "$(starship init zsh)"
-# export STARSHIP_CONFIG=~/.config/starship/starship.toml
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
 export XDG_CONFIG_HOME="$HOME/.config"
 
 FZF_COMPLETION_TRIGGER='**'
